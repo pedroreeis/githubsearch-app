@@ -12,20 +12,19 @@ export function User() {
     const params = useParams();
     const user = params.user;
 
-    const [userName, setUserName] = useState('');
+    const [userDetails, setUserDetails] = useState({});
+    /*const [userName, setUserName] = useState('');
     const [userAvatar, setUserAvatar] = useState('');
     const [userCompany, setUserCompany] = useState('');
     const [userLocation, setUserLocation] = useState('');
     const [userBiograph, setUserBiograph] = useState('');
     const [userFollowers, setUserFollowers] = useState('');
     const [userCreate, setUserCreate] = useState('');
-    const [userRepos, setUserRepos] = useState('');
+    const [userRepos, setUserRepos] = useState('');*/
 
     axios.get(`https://api.github.com/users/${user}`).then(({data}) => 
         (
-            setUserName(data.name), setUserAvatar(data.avatar_url), setUserCompany(data.company ? data.company : "Indefinido"),
-            setUserLocation(data.location ? data.location : "Indefinido"), setUserBiograph(data.bio ? data.bio : "Indefinido"), setUserFollowers(data.followers),
-            setUserCreate(data.created_at), setUserRepos(data.public_repos ? data.public_repos : "Indefinido")
+            setUserDetails({ data })
         )
     );
 
@@ -38,13 +37,13 @@ export function User() {
     return (
         <div id="home-container">
             <main>
-                { userName ? (
+                { userDetails.name ? (
                         <div className="main-content">
                         <div class="wrapper">
                             <div class="left">
-                                <img src={userAvatar} alt="Avatar do usuario" width="100" />
-                                <h4>{userName}</h4>
-                                <p>{userBiograph}</p>
+                                <img src={userDetails.avatar_url} alt="Avatar do usuario" width="100" />
+                                <h4>{userDetails.name}</h4>
+                                <p>{userDetails.bio}</p>
                             </div>
                             <div class="right">
                                 <div class="info">
@@ -52,27 +51,27 @@ export function User() {
                                     <div class="info_data">
                                         <div class="data">
                                             <h4>Companias</h4>
-                                            <p>{userCompany}</p>
+                                            <p>{userDetails.company}</p>
                                         </div>
                                         <div class="data">
                                             <h4>Endereço</h4>
-                                            <p>{userLocation}</p>
+                                            <p>{userDetails.location}</p>
                                         </div>
                                 </div>
                                 <div class="info_data">
                                         <div class="data">
                                             <h4>Seguidores:</h4>
-                                            <p>{userFollowers}</p>
+                                            <p>{userDetails.followers}</p>
                                         </div>
                                         <div class="data">
                                             <h4>Data de criação</h4>
-                                            <p>{userCreate}</p>
+                                            <p>{userDetails.create_at}</p>
                                         </div>
                                 </div>
                                 <div class="info_data">
                                         <div class="data">
                                             <h4>Repositórios</h4>
-                                            <p>{userRepos}</p>
+                                            <p>{userDetails.public_repos}</p>
                                         </div>
                                 </div>
                             </div>
